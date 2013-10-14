@@ -81,3 +81,12 @@ decrypted == plain; # true
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## License
+
+Copyright © 2013 Global Personals Ltd.
+
+This library is released under the LGPL license as detailed in the LICENSE.txt file that should be distributed with this library; the source code is [freely available](http://github.com/globaldev/cfmx_compat).
+
+[Global Personals Ltd](http://www.globalpersonals.co.uk/) have kindly agreed to the  release of this software under the license terms above.
+
