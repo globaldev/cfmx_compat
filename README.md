@@ -26,7 +26,6 @@ Or install it yourself as:
 
 ## Usage
 
-### Encryption
 In Ruby, using this gem:
 
 ```
@@ -46,7 +45,7 @@ decrypted = CfmxCompat.decrypt(encrypted, key, "hex")
 plain == decrypted # true
 
 encrypted = CfmxCompat.encrypt(plain, key, "base64")
-decrypted = CfmxCompat.decrypt(encrypted, key)
+decrypted = CfmxCompat.decrypt(encrypted, key, "base64")
 plain == decrypted # true
 ```
 
