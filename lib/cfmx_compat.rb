@@ -28,11 +28,11 @@ class CfmxCompat
   end
 
   def encrypt(string, key, encoding = "uu")
-    encode(transform_string(string, key), encoding)
+    encode(transform_string(string || "", key), encoding)
   end
 
   def decrypt(encoded, key, encoding = "uu")
-    transform_string(decode(encoded, encoding), key)
+    transform_string(decode(encoded || "", encoding), key)
   end
 
   private
@@ -64,6 +64,7 @@ class CfmxCompat
   end
 
   def transform_string(string, key)
+    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" unless key && key.length > 0
     return "" unless string && string.length > 0
 
     self.m_LFSR_A = 0x13579bdf
@@ -106,8 +107,6 @@ class CfmxCompat
   end
 
   def seed_from_key(key)
-    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" unless key && key.length > 0
-
     doublekey = (key * 2).bytes.to_a
     seed = Array.new(12) {|i| doublekey[i] || 0 }
 
