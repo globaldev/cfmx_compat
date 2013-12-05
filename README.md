@@ -28,7 +28,7 @@ Or install it yourself as:
 
 In Ruby, using this gem:
 
-```
+```ruby
 key = "secretkey"
 plain = "plain text value"
 
@@ -51,26 +51,26 @@ plain == decrypted # true
 
 Is the same as this in ColdFusion:
 
-```
+```cfml
 <cfscript>
 key = "secretkey";
 plain = "plain text value";
 
 encrypted = encrypt(plain, key);
 decrypted = decrypt(encrypted, key);
-decrypted == plain; # true
+decrypted == plain; // true
 
 encrypted = encrypt(plain, key, "CFMX_COMPAT", "uu");
 decrypted = decrypt(encrypted, key, "CFMX_COMPAT", "uu");
-decrypted == plain; # true
+decrypted == plain; // true
 
 encrypted = encrypt(plain, key, "CFMX_COMPAT", "hex");
 decrypted = decrypt(encrypted, key, "CFMX_COMPAT", "hex");
-decrypted == plain; # true
+decrypted == plain; // true
 
 encrypted = encrypt(plain, key, "CFMX_COMPAT", "base64");
 decrypted = decrypt(encrypted, key, "CFMX_COMPAT", "base64");
-decrypted == plain; # true
+decrypted == plain; // true
 </cfscript>
 ```
 
