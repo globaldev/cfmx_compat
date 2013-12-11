@@ -114,8 +114,8 @@ class CfmxCompat
       @m_LFSR_C = (m_LFSR_C << 8) | seed[i+4]
     end
 
-    @m_LFSR_A = 0x13579bdf if m_LFSR_A == 0
-    @m_LFSR_B = 0x2468ace0 if m_LFSR_B == 0
-    @m_LFSR_C = 0xfdb97531 if m_LFSR_C == 0
+    @m_LFSR_A = 0x13579bdf if m_LFSR_A.zero?
+    @m_LFSR_B = 0x2468ace0 if m_LFSR_B.zero?
+    @m_LFSR_C = 0xfdb97531 if m_LFSR_C.zero?
   end
 end
