@@ -17,7 +17,8 @@ class Worker
     raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
     raise ArgumentError, "Invalid CfmxCompat encoding option: '#{@encoding}' (Expected UU, HEX, or BASE64)" unless encoding =~ /uu|hex|base64/i
 
-    @encoding, @key = encoding, key
+    @encoding = EncodingFactory.new.create(encoding)
+    @key = key
   end
 
   def encrypt(plaintext)
@@ -31,11 +32,11 @@ class Worker
   private
 
   def encode(result)
-    EncodingFactory.new.create(@encoding).encode(result)
+    @encoding.encode(result)
   end
 
   def decode(encoded)
-    EncodingFactory.new.create(@encoding).decode(encoded)
+    @encoding.decode(encoded)
   end
 
   def transform_string(string)
