@@ -18,8 +18,8 @@ describe CfmxCompat do
   end
 
   describe ".decrypt" do
-    specify { CfmxCompat.decrypt(nil, key).should == '' }
     it { expect { CfmxCompat.decrypt(plaintext, nil) }.to raise_error(ArgumentError) }
+    specify { CfmxCompat.decrypt(nil, key).should == '' }
 
     context "encoding" do
       context "when not given" do
