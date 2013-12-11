@@ -26,6 +26,8 @@ class Worker
   @@HEX_ENCODED_STRING = "H*"
 
   def initialize encoding, key
+    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
+
     @encoding, @key = encoding, key
   end
 
@@ -66,8 +68,6 @@ private
   end
 
   def transform_string(string)
-    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if @key.nil? or @key.empty?
-
     @m_LFSR_A = 0x13579bdf
     @m_LFSR_B = 0x2468ace0
     @m_LFSR_C = 0xfdb97531
