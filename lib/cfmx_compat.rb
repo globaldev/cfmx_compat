@@ -91,12 +91,12 @@ private
       else
         @m_LFSR_A = @m_LFSR_A ^ @@M_MASK_A >> 1 | @@M_ROT1_A
 
-        if @m_LFSR_B & 1 != 0
-          @m_LFSR_B = @m_LFSR_B ^ @@M_MASK_B >> 1 | @@M_ROT1_B
-          b = 1
-        else
+        if @m_LFSR_B & 1 == 0
           @m_LFSR_B = @m_LFSR_B >> 1 & @@M_ROT0_B
           b = 0
+        else
+          @m_LFSR_B = @m_LFSR_B ^ @@M_MASK_B >> 1 | @@M_ROT1_B
+          b = 1
         end
       end
       crypto = crypto << 1 | b ^ c
