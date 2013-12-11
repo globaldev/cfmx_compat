@@ -2,11 +2,11 @@ require "base64"
 
 class CfmxCompat
   def self.encrypt(plaintext, key, encoding = "uu")
-    Worker.new.encrypt(plaintext, key, encoding)
+    Worker.new(encoding).encrypt(plaintext, key)
   end
 
   def self.decrypt(ciphertext, key, encoding = "uu")
-    Worker.new.decrypt(ciphertext, key, encoding)
+    Worker.new(encoding).decrypt(ciphertext, key)
   end
 end
 
@@ -25,18 +25,22 @@ class Worker
   @@UU_ENCODED_STRING = "u"
   @@HEX_ENCODED_STRING = "H*"
 
-  def encrypt(plaintext, key, encoding)
-    encode(transform_string(plaintext || "", key), encoding)
+  def initialize encoding
+    @encoding = encoding
   end
 
-  def decrypt(ciphertext, key, encoding)
-    transform_string(decode(ciphertext || "", encoding), key)
+  def encrypt(plaintext, key)
+    encode(transform_string(plaintext || "", key))
+  end
+
+  def decrypt(ciphertext, key)
+    transform_string(decode(ciphertext || ""), key)
   end
 
 private
 
-  def encode(result, encoding)
-    case encoding.downcase.to_s
+  def encode(result)
+    case @encoding.downcase.to_s
     when "uu" then
       [result].pack(@@UU_ENCODED_STRING)
     when "hex" then
@@ -44,12 +48,12 @@ private
     when "base64"
       Base64.strict_encode64(result) # strict = no new line to match CF.
     else
-      raise ArgumentError, "Invalid CfmxCompat encoding option: '#{encoding}' (Expected UU, HEX, or BASE64)"
+      raise ArgumentError, "Invalid CfmxCompat encoding option: '#{@encoding}' (Expected UU, HEX, or BASE64)"
     end
   end
 
-  def decode(encoded, encoding)
-    case encoding.downcase.to_s
+  def decode(encoded)
+    case @encoding.downcase.to_s
     when "uu" then
       encoded.unpack(@@UU_ENCODED_STRING).first
     when "hex" then
@@ -57,7 +61,7 @@ private
     when "base64" then
       Base64.decode64(encoded)
     else
-      raise ArgumentError, "Invalid CfmxCompat decoding option: '#{encoding}' (Expected UU, HEX, or BASE64)"
+      raise ArgumentError, "Invalid CfmxCompat decoding option: '#{@encoding}' (Expected UU, HEX, or BASE64)"
     end
   end
 
