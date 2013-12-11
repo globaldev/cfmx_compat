@@ -121,13 +121,17 @@ private
     seed = Array.new(12) {|i| doublekey[i] || 0 }
 
     4.times do |i|
-      @m_LFSR_A = (@m_LFSR_A << 8) | seed[i + 4]
-      @m_LFSR_B = (@m_LFSR_B << 8) | seed[i + 4]
-      @m_LFSR_C = (@m_LFSR_C << 8) | seed[i + 4]
+      @m_LFSR_A = munge3 @m_LFSR_A, seed[i + 4]
+      @m_LFSR_B = munge3 @m_LFSR_B, seed[i + 4]
+      @m_LFSR_C = munge3 @m_LFSR_C, seed[i + 4]
     end
 
     @m_LFSR_A = 0x13579bdf if @m_LFSR_A.zero?
     @m_LFSR_B = 0x2468ace0 if @m_LFSR_B.zero?
     @m_LFSR_C = 0xfdb97531 if @m_LFSR_C.zero?
+  end
+
+  def munge3 x, y
+    (x << 8) | y
   end
 end
