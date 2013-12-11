@@ -31,10 +31,12 @@ describe CfmxCompat do
         end
       end
 
-      it "decrypts correctly with specified encoding" do
-        [:uu, :hex, :base64].each do |encoding_type|
-          ciphertext = CfmxCompat.encrypt(plaintext, key, encoding_type)
-          CfmxCompat.decrypt(ciphertext, key, encoding_type).should == plaintext
+      context "when given" do
+        it "decrypts correctly with specified encoding" do
+          [:uu, :hex, :base64].each do |encoding_type|
+            ciphertext = CfmxCompat.encrypt(plaintext, key, encoding_type)
+            CfmxCompat.decrypt(ciphertext, key, encoding_type).should == plaintext
+          end
         end
       end
     end
