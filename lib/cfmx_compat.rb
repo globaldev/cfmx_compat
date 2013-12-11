@@ -81,12 +81,12 @@ private
     8.times do
       if @m_LFSR_A & 1 == 0
         @m_LFSR_A = @m_LFSR_A >> 1 & @@M_ROT0_A
-        if @m_LFSR_C & 1 != 0
-          @m_LFSR_C = @m_LFSR_C ^ @@M_MASK_C >> 1 | @@M_ROT1_C
-          c = 1
-        else
+        if @m_LFSR_C & 1 == 0
           @m_LFSR_C = @m_LFSR_C >> 1 & @@M_ROT0_C
           c = 0
+        else
+          @m_LFSR_C = @m_LFSR_C ^ @@M_MASK_C >> 1 | @@M_ROT1_C
+          c = 1
         end
       else
         @m_LFSR_A = @m_LFSR_A ^ @@M_MASK_A >> 1 | @@M_ROT1_A
