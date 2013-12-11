@@ -11,8 +11,6 @@ class CfmxCompat
 end
 
 class Worker
-  attr_accessor :m_LFSR_A, :m_LFSR_B, :m_LFSR_C
-
   M_MASK_A = 0x80000062
   M_MASK_B = 0x40000020
   M_MASK_C = 0x10000002
@@ -77,27 +75,27 @@ private
 
   def transform_byte(target)
     crypto = 0
-    b = m_LFSR_B & 1
-    c = m_LFSR_C & 1
+    b = @m_LFSR_B & 1
+    c = @m_LFSR_C & 1
 
     8.times do
-      if m_LFSR_A & 1 != 0
-        self.m_LFSR_A = m_LFSR_A ^ M_MASK_A >> 1 | M_ROT1_A
+      if @m_LFSR_A & 1 != 0
+        @m_LFSR_A = @m_LFSR_A ^ M_MASK_A >> 1 | M_ROT1_A
 
-        if m_LFSR_B & 1 != 0
-          self.m_LFSR_B = m_LFSR_B ^ M_MASK_B >> 1 | M_ROT1_B
+        if @m_LFSR_B & 1 != 0
+          @m_LFSR_B = @m_LFSR_B ^ M_MASK_B >> 1 | M_ROT1_B
           b = 1
         else
-          self.m_LFSR_B = m_LFSR_B >> 1 & M_ROT0_B
+          @m_LFSR_B = @m_LFSR_B >> 1 & M_ROT0_B
           b = 0
         end
       else
-        self.m_LFSR_A = m_LFSR_A >> 1 & M_ROT0_A
-        if m_LFSR_C & 1 != 0
-          self.m_LFSR_C = m_LFSR_C ^ M_MASK_C >> 1 | M_ROT1_C
+        @m_LFSR_A = @m_LFSR_A >> 1 & M_ROT0_A
+        if @m_LFSR_C & 1 != 0
+          @m_LFSR_C = @m_LFSR_C ^ M_MASK_C >> 1 | M_ROT1_C
           c = 1
         else
-          self.m_LFSR_C = m_LFSR_C >> 1 & M_ROT0_C
+          @m_LFSR_C = @m_LFSR_C >> 1 & M_ROT0_C
           c = 0
         end
       end
@@ -111,13 +109,13 @@ private
     seed = Array.new(12) {|i| doublekey[i] || 0 }
 
     4.times do |i|
-      @m_LFSR_A = (m_LFSR_A << 8) | seed[i+4]
-      @m_LFSR_B = (m_LFSR_B << 8) | seed[i+4]
-      @m_LFSR_C = (m_LFSR_C << 8) | seed[i+4]
+      @m_LFSR_A = (@m_LFSR_A << 8) | seed[i+4]
+      @m_LFSR_B = (@m_LFSR_B << 8) | seed[i+4]
+      @m_LFSR_C = (@m_LFSR_C << 8) | seed[i+4]
     end
 
-    @m_LFSR_A = 0x13579bdf if m_LFSR_A.zero?
-    @m_LFSR_B = 0x2468ace0 if m_LFSR_B.zero?
-    @m_LFSR_C = 0xfdb97531 if m_LFSR_C.zero?
+    @m_LFSR_A = 0x13579bdf if @m_LFSR_A.zero?
+    @m_LFSR_B = 0x2468ace0 if @m_LFSR_B.zero?
+    @m_LFSR_C = 0xfdb97531 if @m_LFSR_C.zero?
   end
 end
