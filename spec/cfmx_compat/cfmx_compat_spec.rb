@@ -5,69 +5,23 @@ describe CfmxCompat do
   let(:plaintext) { "clear text" }
 
   describe ".encrypt" do
-    context "nil plaintext" do
-      it "returns empty string" do
-        CfmxCompat.encrypt(nil, key).should == ''
-      end
-    end
+    specify { CfmxCompat.encrypt(nil, key).should == '' }
+    specify { CfmxCompat.encrypt('', key).should == '' }
 
-    context "empty plaintext" do
-      it "returns empty string" do
-        CfmxCompat.encrypt('', key).should == ''
-      end
-    end
-
-    context "nil key" do
-      it "raises ArgumentError" do
-        expect { CfmxCompat.encrypt(plaintext, nil) }.to raise_error(ArgumentError)
-      end
-    end
-
-    context "empty key" do
-      it "raises ArgumentError" do
-        expect { CfmxCompat.encrypt(plaintext, '') }.to raise_error(ArgumentError)
-      end
-    end
+    it { expect { CfmxCompat.encrypt(plaintext, nil) }.to raise_error(ArgumentError) }
+    it { expect { CfmxCompat.encrypt(plaintext, '') }.to raise_error(ArgumentError) }
 
     context "encoding" do
-      context "when uu" do
-        it "encrypts correctly" do
-          CfmxCompat.encrypt(plaintext, key, "uu").should == "*<@>J&XG+`99/40``\n"
-        end
-      end
-
-      context "when not specified" do
-        it "defaults to uu" do
-          CfmxCompat.encrypt(plaintext, key).should == CfmxCompat.encrypt(plaintext, key, 'uu')
-        end
-      end
-
-      context "when hex" do
-        it "encrypts correctly" do
-          CfmxCompat.encrypt(plaintext, key, "hex").should == "7207AA1B89CB01964F51"
-        end
-      end
-
-      context "when base64" do
-        it "encrypts correctly" do
-          CfmxCompat.encrypt(plaintext, key, "base64").should == "cgeqG4nLAZZPUQ=="
-        end
-      end
+      specify { CfmxCompat.encrypt(plaintext, key, "uu").should == "*<@>J&XG+`99/40``\n" }
+      specify { CfmxCompat.encrypt(plaintext, key, "hex").should == "7207AA1B89CB01964F51" }
+      specify { CfmxCompat.encrypt(plaintext, key, "base64").should == "cgeqG4nLAZZPUQ==" }
+      specify { CfmxCompat.encrypt(plaintext, key).should == CfmxCompat.encrypt(plaintext, key, 'uu') }
     end
   end
 
   describe ".decrypt" do
-    context "nil plaintext" do
-      it "returns empty string" do
-        CfmxCompat.decrypt(nil, key).should == ''
-      end
-    end
-
-    context "nil key" do
-      it "raises ArgumentError" do
-        expect { CfmxCompat.decrypt(plaintext, nil) }.to raise_error(ArgumentError)
-      end
-    end
+    specify { CfmxCompat.decrypt(nil, key).should == '' }
+    it { expect { CfmxCompat.decrypt(plaintext, nil) }.to raise_error(ArgumentError) }
 
     context "encoding" do
       context "when not specified" do
