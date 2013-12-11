@@ -1,8 +1,8 @@
 require "base64"
 
 class CfmxCompat
-  def self.encrypt(string, key, encoding = "uu")
-    Worker.new.encrypt(string, key, encoding)
+  def self.encrypt(plaintext, key, encoding = "uu")
+    Worker.new.encrypt(plaintext, key, encoding)
   end
 
   def self.decrypt(encoded, key, encoding = "uu")
