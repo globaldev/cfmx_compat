@@ -89,17 +89,17 @@ private
           @m_LFSR_C = munge1 @m_LFSR_C, @@M_ROT0_C
           c = 0
         else
-          @m_LFSR_C = @m_LFSR_C ^ @@M_MASK_C >> 1 | @@M_ROT1_C
+          @m_LFSR_C = munge2 @m_LFSR_C, @@M_MASK_C, @@M_ROT1_C
           c = 1
         end
       else
-        @m_LFSR_A = @m_LFSR_A ^ @@M_MASK_A >> 1 | @@M_ROT1_A
+        @m_LFSR_A = munge2 @m_LFSR_A, @@M_MASK_A, @@M_ROT1_A
 
         if @m_LFSR_B & 1 == 0
           @m_LFSR_B = munge1 @m_LFSR_B, @@M_ROT0_B
           b = 0
         else
-          @m_LFSR_B = @m_LFSR_B ^ @@M_MASK_B >> 1 | @@M_ROT1_B
+          @m_LFSR_B = munge2 @m_LFSR_B, @@M_MASK_B, @@M_ROT1_B
           b = 1
         end
       end
@@ -110,6 +110,10 @@ private
 
   def munge1 x, y
     x >> 1 & y
+  end
+
+  def munge2 x, y, z
+    x ^ y >> 1 | z
   end
 
   def seed_from_key(key)
