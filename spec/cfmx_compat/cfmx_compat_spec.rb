@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 describe CfmxCompat do
   let(:key) { "mySecretKey" }
   let(:plaintext) { "clear text" }
+  let(:other_plaintext) { "other plaintext"}
 
   describe ".encrypt" do
     it { expect { CfmxCompat.encrypt(plaintext, nil) }.to raise_error(ArgumentError) }
@@ -12,8 +13,12 @@ describe CfmxCompat do
     specify { CfmxCompat.encrypt('', key).should == '' }
 
     specify { CfmxCompat.encrypt(plaintext, key, 'uu').should == "*<@>J&XG+`99/40``\n" }
+    specify { CfmxCompat.encrypt(other_plaintext, key, 'uu').should == "/?A^G'XG+!9]63%VH@*=3\n" }
     specify { CfmxCompat.encrypt(plaintext, key, 'hex').should == "7207AA1B89CB01964F51" }
+    specify { CfmxCompat.encrypt(other_plaintext, key, 'hex').should == "7E1FA71F89CB059F564C5DA880A753" }
     specify { CfmxCompat.encrypt(plaintext, key, 'base64').should == "cgeqG4nLAZZPUQ==" }
+    specify { CfmxCompat.encrypt(other_plaintext, key, 'base64').should == "fh+nH4nLBZ9WTF2ogKdT" }
+
     specify { CfmxCompat.encrypt(plaintext, key).should == CfmxCompat.encrypt(plaintext, key, 'uu') }
   end
 
