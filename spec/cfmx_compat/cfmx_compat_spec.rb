@@ -38,7 +38,7 @@ describe CfmxCompat do
 
       context "when not specified" do
         it "defaults to uu" do
-          CfmxCompat.encrypt(plaintext, key).should == "*<@>J&XG+`99/40``\n"
+          CfmxCompat.encrypt(plaintext, key).should == CfmxCompat.encrypt(plaintext, key, 'uu')
         end
       end
 
