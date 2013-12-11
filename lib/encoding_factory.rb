@@ -9,6 +9,8 @@ class EncodingFactory
         HexEncoding
       when /base64/i
         Base64Encoding
+      else
+        raise ArgumentError, "Invalid CfmxCompat encoding option: '#{encoding}' (Expected UU, HEX, or BASE64)"
     end
   end
 end
