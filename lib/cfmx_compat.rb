@@ -1,6 +1,16 @@
 require "base64"
 
 class CfmxCompat
+  def self.encrypt(string, key, encoding = "uu")
+    Worker.new.encrypt(string, key, encoding)
+  end
+
+  def self.decrypt(encoded, key, encoding = "uu")
+    Worker.new.decrypt(encoded, key, encoding)
+  end
+end
+
+class Worker
   attr_accessor :m_LFSR_A, :m_LFSR_B, :m_LFSR_C
 
   M_MASK_A = 0x80000062
@@ -17,14 +27,6 @@ class CfmxCompat
   UU_ENCODED_STRING = "u"
   HEX_ENCODED_STRING = "H*"
 
-  def self.encrypt(string, key, encoding = "uu")
-    new.encrypt(string, key, encoding)
-  end
-
-  def self.decrypt(encoded, key, encoding = "uu")
-    new.decrypt(encoded, key, encoding)
-  end
-
   def encrypt(string, key, encoding = "uu")
     encode(transform_string(string || "", key), encoding)
   end
@@ -33,7 +35,7 @@ class CfmxCompat
     transform_string(decode(encoded || "", encoding), key)
   end
 
-  private
+private
 
   def encode(result, encoding)
     case encoding.downcase.to_s
