@@ -11,6 +11,12 @@ describe CfmxCompat do
       end
     end
 
+    context "empty plaintext" do
+      it "returns empty string" do
+        CfmxCompat.encrypt('', key).should == ''
+      end
+    end
+
     context "nil key" do
       it "raises ArgumentError" do
         expect { CfmxCompat.encrypt(plaintext, nil) }.to raise_error(ArgumentError)
