@@ -57,13 +57,13 @@ describe CfmxCompat do
   end
 
   describe ".decrypt" do
-    context "nil string value" do
+    context "nil plaintext" do
       it "returns empty string" do
         CfmxCompat.decrypt(nil, key).should == ''
       end
     end
 
-    context "nil key value" do
+    context "nil key" do
       it "raises ArgumentError" do
         expect { CfmxCompat.decrypt(plaintext, nil) }.to raise_error(ArgumentError)
       end
@@ -71,8 +71,9 @@ describe CfmxCompat do
 
     context "encoding" do
       context "when not specified" do
-        it "decrypts correctly" do
-          CfmxCompat.decrypt(CfmxCompat.encrypt(plaintext, key), key).should == plaintext
+        it "assumes ciphertext is uu encoded" do
+          uu_ciphertext = CfmxCompat.encrypt(plaintext, key, 'uu')
+          CfmxCompat.decrypt(uu_ciphertext, key).should == plaintext
         end
       end
 
