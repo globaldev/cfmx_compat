@@ -42,8 +42,8 @@ private
     @m_LFSR_A = 0x13579bdf
     @m_LFSR_B = 0x2468ace0
     @m_LFSR_C = 0xfdb97531
-    seed_from_key
 
+    seed_from_key
     string.bytes.map {|byte| transform_byte(byte) }.pack(@@UNSIGNED_CHAR)
   end
 
