@@ -25,8 +25,8 @@ class Worker
   UU_ENCODED_STRING = "u"
   HEX_ENCODED_STRING = "H*"
 
-  def encrypt(string, key, encoding = "uu")
-    encode(transform_string(string || "", key), encoding)
+  def encrypt(plaintext, key, encoding = "uu")
+    encode(transform_string(plaintext || "", key), encoding)
   end
 
   def decrypt(encoded, key, encoding = "uu")
