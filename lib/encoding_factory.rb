@@ -20,8 +20,8 @@ module UuEncoding
 
   @@UU_ENCODED_STRING = 'u'
 
-  def encode result
-    [result].pack(@@UU_ENCODED_STRING)
+  def encode string
+    [string].pack(@@UU_ENCODED_STRING)
   end
 
   def decode encoded
@@ -34,8 +34,8 @@ module HexEncoding
 
   @@HEX_ENCODED_STRING = 'H*'
 
-  def encode result
-    result.unpack(@@HEX_ENCODED_STRING).first.upcase
+  def encode string
+    string.unpack(@@HEX_ENCODED_STRING).first.upcase
   end
 
   def decode encoded
@@ -46,8 +46,8 @@ end
 module Base64Encoding
   extend self
 
-  def encode result
-    Base64.strict_encode64(result) # strict = no new line to match CF
+  def encode string
+    Base64.strict_encode64(string) # strict = no new line to match CF
   end
 
   def decode encoded
