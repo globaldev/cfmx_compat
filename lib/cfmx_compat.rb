@@ -27,6 +27,7 @@ class Worker
 
   def initialize encoding, key
     raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
+    raise ArgumentError, "Invalid CfmxCompat encoding option: '#{@encoding}' (Expected UU, HEX, or BASE64)" unless encoding =~ /uu|hex|base64/i
 
     @encoding, @key = encoding, key
   end
@@ -49,8 +50,6 @@ private
       result.unpack(@@HEX_ENCODED_STRING).first.upcase
     when "base64"
       Base64.strict_encode64(result) # strict = no new line to match CF.
-    else
-      raise ArgumentError, "Invalid CfmxCompat encoding option: '#{@encoding}' (Expected UU, HEX, or BASE64)"
     end
   end
 
@@ -62,8 +61,6 @@ private
       encoded.scan(/../).map {|x| x.hex.chr }.join
     when "base64" then
       Base64.decode64(encoded)
-    else
-      raise ArgumentError, "Invalid CfmxCompat decoding option: '#{@encoding}' (Expected UU, HEX, or BASE64)"
     end
   end
 
