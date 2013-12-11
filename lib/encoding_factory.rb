@@ -1,4 +1,4 @@
-require "base64"
+require 'base64'
 
 class EncodingFactory
   def create encoding
@@ -16,7 +16,7 @@ end
 module UuEncoding
   extend self
 
-  @@UU_ENCODED_STRING = "u"
+  @@UU_ENCODED_STRING = 'u'
 
   def encode result
     [result].pack(@@UU_ENCODED_STRING)
@@ -30,7 +30,7 @@ end
 module HexEncoding
   extend self
 
-  @@HEX_ENCODED_STRING = "H*"
+  @@HEX_ENCODED_STRING = 'H*'
 
   def encode result
     result.unpack(@@HEX_ENCODED_STRING).first.upcase
