@@ -5,11 +5,11 @@ describe CfmxCompat do
   let(:plaintext) { "clear text" }
 
   describe ".encrypt" do
-    specify { CfmxCompat.encrypt(nil, key).should == '' }
-    specify { CfmxCompat.encrypt('', key).should == '' }
-
     it { expect { CfmxCompat.encrypt(plaintext, nil) }.to raise_error(ArgumentError) }
     it { expect { CfmxCompat.encrypt(plaintext, '') }.to raise_error(ArgumentError) }
+
+    specify { CfmxCompat.encrypt(nil, key).should == '' }
+    specify { CfmxCompat.encrypt('', key).should == '' }
 
     specify { CfmxCompat.encrypt(plaintext, key, 'uu').should == "*<@>J&XG+`99/40``\n" }
     specify { CfmxCompat.encrypt(plaintext, key, 'hex').should == "7207AA1B89CB01964F51" }
