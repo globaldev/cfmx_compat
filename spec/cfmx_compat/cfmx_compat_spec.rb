@@ -5,7 +5,7 @@ describe CfmxCompat do
   let(:plaintext) { "clear text" }
 
   describe ".encrypt" do
-    context "nil string value" do
+    context "nil plaintext" do
       it "returns empty string" do
         CfmxCompat.encrypt(nil, key).should == ''
       end
