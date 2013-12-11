@@ -5,8 +5,8 @@ class CfmxCompat
     Worker.new.encrypt(plaintext, key, encoding)
   end
 
-  def self.decrypt(encoded, key, encoding = "uu")
-    Worker.new.decrypt(encoded, key, encoding)
+  def self.decrypt(ciphertext, key, encoding = "uu")
+    Worker.new.decrypt(ciphertext, key, encoding)
   end
 end
 
