@@ -11,12 +11,10 @@ describe CfmxCompat do
     it { expect { CfmxCompat.encrypt(plaintext, nil) }.to raise_error(ArgumentError) }
     it { expect { CfmxCompat.encrypt(plaintext, '') }.to raise_error(ArgumentError) }
 
-    context "encoding" do
-      specify { CfmxCompat.encrypt(plaintext, key, 'uu').should == "*<@>J&XG+`99/40``\n" }
-      specify { CfmxCompat.encrypt(plaintext, key, 'hex').should == "7207AA1B89CB01964F51" }
-      specify { CfmxCompat.encrypt(plaintext, key, 'base64').should == "cgeqG4nLAZZPUQ==" }
-      specify { CfmxCompat.encrypt(plaintext, key).should == CfmxCompat.encrypt(plaintext, key, 'uu') }
-    end
+    specify { CfmxCompat.encrypt(plaintext, key, 'uu').should == "*<@>J&XG+`99/40``\n" }
+    specify { CfmxCompat.encrypt(plaintext, key, 'hex').should == "7207AA1B89CB01964F51" }
+    specify { CfmxCompat.encrypt(plaintext, key, 'base64').should == "cgeqG4nLAZZPUQ==" }
+    specify { CfmxCompat.encrypt(plaintext, key).should == CfmxCompat.encrypt(plaintext, key, 'uu') }
   end
 
   describe ".decrypt" do
