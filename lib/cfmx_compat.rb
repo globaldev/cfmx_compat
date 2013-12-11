@@ -62,7 +62,7 @@ private
   end
 
   def transform_string(string, key)
-    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" unless key && key.length > 0
+    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
     return '' if string.empty?
 
     @m_LFSR_A = 0x13579bdf
