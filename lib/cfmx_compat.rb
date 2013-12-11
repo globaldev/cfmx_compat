@@ -2,11 +2,11 @@ require "base64"
 
 class CfmxCompat
   def self.encrypt(plaintext, key, encoding = "uu")
-    Worker.new(encoding).encrypt(plaintext, key)
+    Worker.new(encoding, key).encrypt(plaintext)
   end
 
   def self.decrypt(ciphertext, key, encoding = "uu")
-    Worker.new(encoding).decrypt(ciphertext, key)
+    Worker.new(encoding, key).decrypt(ciphertext)
   end
 end
 
@@ -25,16 +25,16 @@ class Worker
   @@UU_ENCODED_STRING = "u"
   @@HEX_ENCODED_STRING = "H*"
 
-  def initialize encoding
-    @encoding = encoding
+  def initialize encoding, key
+    @encoding, @key = encoding, key
   end
 
-  def encrypt(plaintext, key)
-    encode(transform_string(plaintext || "", key))
+  def encrypt(plaintext)
+    encode(transform_string(plaintext || ""))
   end
 
-  def decrypt(ciphertext, key)
-    transform_string(decode(ciphertext || ""), key)
+  def decrypt(ciphertext)
+    transform_string(decode(ciphertext || ""))
   end
 
 private
@@ -65,19 +65,19 @@ private
     end
   end
 
-  def transform_string(string, key)
-    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
+  def transform_string(string)
+    raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if @key.nil? or @key.empty?
 
     @m_LFSR_A = 0x13579bdf
     @m_LFSR_B = 0x2468ace0
     @m_LFSR_C = 0xfdb97531
-    seed_from_key(key)
+    seed_from_key
 
     string.bytes.map {|byte| transform_byte(byte) }.pack(@@UNSIGNED_CHAR)
   end
 
-  def seed_from_key(key)
-    doublekey = (key * 2).bytes.to_a
+  def seed_from_key
+    doublekey = (@key * 2).bytes.to_a
     seed = Array.new(12) {|i| doublekey[i] || 0 }
 
     4.times do |i|
