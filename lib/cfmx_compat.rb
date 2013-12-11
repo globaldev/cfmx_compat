@@ -79,7 +79,16 @@ private
     c = @m_LFSR_C & 1
 
     8.times do
-      if @m_LFSR_A & 1 != 0
+      if @m_LFSR_A & 1 == 0
+        @m_LFSR_A = @m_LFSR_A >> 1 & @@M_ROT0_A
+        if @m_LFSR_C & 1 != 0
+          @m_LFSR_C = @m_LFSR_C ^ @@M_MASK_C >> 1 | @@M_ROT1_C
+          c = 1
+        else
+          @m_LFSR_C = @m_LFSR_C >> 1 & @@M_ROT0_C
+          c = 0
+        end
+      else
         @m_LFSR_A = @m_LFSR_A ^ @@M_MASK_A >> 1 | @@M_ROT1_A
 
         if @m_LFSR_B & 1 != 0
@@ -88,15 +97,6 @@ private
         else
           @m_LFSR_B = @m_LFSR_B >> 1 & @@M_ROT0_B
           b = 0
-        end
-      else
-        @m_LFSR_A = @m_LFSR_A >> 1 & @@M_ROT0_A
-        if @m_LFSR_C & 1 != 0
-          @m_LFSR_C = @m_LFSR_C ^ @@M_MASK_C >> 1 | @@M_ROT1_C
-          c = 1
-        else
-          @m_LFSR_C = @m_LFSR_C >> 1 & @@M_ROT0_C
-          c = 0
         end
       end
       crypto = crypto << 1 | b ^ c
