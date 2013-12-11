@@ -24,7 +24,7 @@ describe CfmxCompat do
     it { expect { CfmxCompat.decrypt(plaintext, nil) }.to raise_error(ArgumentError) }
 
     context "encoding" do
-      context "when not specified" do
+      context "when not given" do
         it "assumes ciphertext is uu encoded" do
           uu_ciphertext = CfmxCompat.encrypt(plaintext, key, 'uu')
           CfmxCompat.decrypt(uu_ciphertext, key).should == plaintext
