@@ -11,9 +11,15 @@ describe CfmxCompat do
       end
     end
 
-    context "nil key value" do
+    context "nil key" do
       it "raises ArgumentError" do
         expect { CfmxCompat.encrypt(plaintext, nil) }.to raise_error(ArgumentError)
+      end
+    end
+
+    context "empty key" do
+      it "raises ArgumentError" do
+        expect { CfmxCompat.encrypt(plaintext, '') }.to raise_error(ArgumentError)
       end
     end
 
