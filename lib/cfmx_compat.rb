@@ -101,7 +101,7 @@ class CfmxCompat
       end
       crypto = crypto << 1 | b ^ c
     end
-    target ^= crypto
+    target ^ crypto
   end
 
   def seed_from_key(key)
