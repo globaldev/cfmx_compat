@@ -81,9 +81,9 @@ private
     seed = Array.new(12) {|i| doublekey[i] || 0 }
 
     4.times do |i|
-      @m_LFSR_A = munge3 @m_LFSR_A, seed[i + 4]
-      @m_LFSR_B = munge3 @m_LFSR_B, seed[i + 4]
-      @m_LFSR_C = munge3 @m_LFSR_C, seed[i + 4]
+      @m_LFSR_A = munge1 @m_LFSR_A, seed[i + 4]
+      @m_LFSR_B = munge1 @m_LFSR_B, seed[i + 4]
+      @m_LFSR_C = munge1 @m_LFSR_C, seed[i + 4]
     end
 
     @m_LFSR_A = 0x13579bdf if @m_LFSR_A.zero?
@@ -91,7 +91,7 @@ private
     @m_LFSR_C = 0xfdb97531 if @m_LFSR_C.zero?
   end
 
-  def munge3 x, y
+  def munge1 x, y
     (x << 8) | y
   end
 
@@ -102,23 +102,23 @@ private
 
     8.times do
       if @m_LFSR_A & 1 == 0
-        @m_LFSR_A = munge1 @m_LFSR_A, @@M_ROT0_A
+        @m_LFSR_A = munge2 @m_LFSR_A, @@M_ROT0_A
 
         if @m_LFSR_C & 1 == 0
-          @m_LFSR_C = munge1 @m_LFSR_C, @@M_ROT0_C
+          @m_LFSR_C = munge2 @m_LFSR_C, @@M_ROT0_C
           c = 0
         else
-          @m_LFSR_C = munge2 @m_LFSR_C, @@M_MASK_C, @@M_ROT1_C
+          @m_LFSR_C = munge3 @m_LFSR_C, @@M_MASK_C, @@M_ROT1_C
           c = 1
         end
       else
-        @m_LFSR_A = munge2 @m_LFSR_A, @@M_MASK_A, @@M_ROT1_A
+        @m_LFSR_A = munge3 @m_LFSR_A, @@M_MASK_A, @@M_ROT1_A
 
         if @m_LFSR_B & 1 == 0
-          @m_LFSR_B = munge1 @m_LFSR_B, @@M_ROT0_B
+          @m_LFSR_B = munge2 @m_LFSR_B, @@M_ROT0_B
           b = 0
         else
-          @m_LFSR_B = munge2 @m_LFSR_B, @@M_MASK_B, @@M_ROT1_B
+          @m_LFSR_B = munge3 @m_LFSR_B, @@M_MASK_B, @@M_ROT1_B
           b = 1
         end
       end
@@ -127,11 +127,11 @@ private
     target ^ crypto
   end
 
-  def munge1 x, y
+  def munge2 x, y
     x >> 1 & y
   end
 
-  def munge2 x, y, z
+  def munge3 x, y, z
     x ^ y >> 1 | z
   end
 
