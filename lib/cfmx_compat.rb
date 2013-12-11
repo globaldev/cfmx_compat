@@ -29,8 +29,8 @@ class Worker
     encode(transform_string(plaintext || "", key), encoding)
   end
 
-  def decrypt(encoded, key, encoding = "uu")
-    transform_string(decode(encoded || "", encoding), key)
+  def decrypt(ciphertext, key, encoding = "uu")
+    transform_string(decode(ciphertext || "", encoding), key)
   end
 
 private
