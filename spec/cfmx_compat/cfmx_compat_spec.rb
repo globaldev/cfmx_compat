@@ -24,6 +24,8 @@ describe CfmxCompat do
 
   describe ".decrypt" do
     it { expect { CfmxCompat.decrypt(plaintext, nil) }.to raise_error(ArgumentError) }
+    it { expect { CfmxCompat.decrypt(plaintext, '') }.to raise_error(ArgumentError) }
+
     specify { CfmxCompat.decrypt(nil, key).should == '' }
 
     context "encoding" do
