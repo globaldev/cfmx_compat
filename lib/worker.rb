@@ -15,7 +15,7 @@ class Worker
 
   def initialize encoding, key
     raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
-    raise ArgumentError, "Invalid CfmxCompat encoding option: '#{@encoding}' (Expected UU, HEX, or BASE64)" unless encoding =~ /uu|hex|base64/i
+    raise ArgumentError, "Invalid CfmxCompat encoding option: '#{encoding}' (Expected UU, HEX, or BASE64)" unless encoding =~ /uu|hex|base64/i
 
     @encoding = EncodingFactory.new.create(encoding)
     @key = key
