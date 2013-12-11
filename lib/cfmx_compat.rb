@@ -10,6 +10,59 @@ class CfmxCompat
   end
 end
 
+class EncodingFactory
+  def create encoding
+    case encoding
+    when /uu/i
+      UuEncoding
+    when /hex/i
+      HexEncoding
+    when /base64/i
+      Base64Encoding
+    end
+  end
+end
+
+module UuEncoding
+  extend self
+
+  @@UU_ENCODED_STRING = "u"
+
+  def encode result
+    [result].pack(@@UU_ENCODED_STRING)
+  end
+
+  def decode encoded
+    encoded.unpack(@@UU_ENCODED_STRING).first
+  end
+end
+
+module HexEncoding
+  extend self
+
+  @@HEX_ENCODED_STRING = "H*"
+
+  def encode result
+    result.unpack(@@HEX_ENCODED_STRING).first.upcase
+  end
+
+  def decode encoded
+    encoded.scan(/../).map {|x| x.hex.chr }.join
+  end
+end
+
+module Base64Encoding
+  extend self
+
+  def encode result
+    Base64.strict_encode64(result) # strict = no new line to match CF
+  end
+
+  def decode encoded
+    Base64.decode64(encoded)
+  end
+end
+
 class Worker
   @@M_MASK_A = 0x80000062
   @@M_MASK_B = 0x40000020
@@ -22,8 +75,6 @@ class Worker
   @@M_ROT1_C = 0xf0000000
 
   @@UNSIGNED_CHAR = "C*"
-  @@UU_ENCODED_STRING = "u"
-  @@HEX_ENCODED_STRING = "H*"
 
   def initialize encoding, key
     raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
@@ -43,25 +94,11 @@ class Worker
 private
 
   def encode(result)
-    case @encoding.downcase.to_s
-    when "uu" then
-      [result].pack(@@UU_ENCODED_STRING)
-    when "hex" then
-      result.unpack(@@HEX_ENCODED_STRING).first.upcase
-    when "base64"
-      Base64.strict_encode64(result) # strict = no new line to match CF.
-    end
+    EncodingFactory.new.create(@encoding).encode(result)
   end
 
   def decode(encoded)
-    case @encoding.downcase.to_s
-    when "uu" then
-      encoded.unpack(@@UU_ENCODED_STRING).first
-    when "hex" then
-      encoded.scan(/../).map {|x| x.hex.chr }.join
-    when "base64" then
-      Base64.decode64(encoded)
-    end
+    EncodingFactory.new.create(@encoding).decode(encoded)
   end
 
   def transform_string(string)
