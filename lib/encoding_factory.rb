@@ -10,7 +10,7 @@ class EncodingFactory
       when /base64/i
         Base64Encoding
       else
-        raise ArgumentError, "Invalid CfmxCompat encoding option: '#{encoding}' (Expected UU, HEX, or BASE64)"
+        raise ArgumentError, "Invalid CfmxCompat encoding option: '#{encoding}' (Expected UU, HEX, or BASE64 (case insensitive)"
     end
   end
 end
