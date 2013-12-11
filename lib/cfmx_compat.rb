@@ -2,8 +2,6 @@ require "base64"
 
 class CfmxCompat
   attr_accessor :m_LFSR_A, :m_LFSR_B, :m_LFSR_C
-  private :m_LFSR_A, :m_LFSR_B, :m_LFSR_C
-  private :m_LFSR_A=, :m_LFSR_B=, :m_LFSR_C=
 
   M_MASK_A = 0x80000062
   M_MASK_B = 0x40000020
@@ -67,9 +65,9 @@ class CfmxCompat
     raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" unless key && key.length > 0
     return "" unless string && string.length > 0
 
-    self.m_LFSR_A = 0x13579bdf
-    self.m_LFSR_B = 0x2468ace0
-    self.m_LFSR_C = 0xfdb97531
+    @m_LFSR_A = 0x13579bdf
+    @m_LFSR_B = 0x2468ace0
+    @m_LFSR_C = 0xfdb97531
     seed_from_key(key)
 
     string.bytes.map {|byte| transform_byte(byte) }.pack(UNSIGNED_CHAR)
@@ -111,13 +109,13 @@ class CfmxCompat
     seed = Array.new(12) {|i| doublekey[i] || 0 }
 
     4.times do |i|
-      self.m_LFSR_A = (m_LFSR_A << 8) | seed[i+4]
-      self.m_LFSR_B = (m_LFSR_B << 8) | seed[i+4]
-      self.m_LFSR_C = (m_LFSR_C << 8) | seed[i+4]
+      @m_LFSR_A = (m_LFSR_A << 8) | seed[i+4]
+      @m_LFSR_B = (m_LFSR_B << 8) | seed[i+4]
+      @m_LFSR_C = (m_LFSR_C << 8) | seed[i+4]
     end
 
-    self.m_LFSR_A = 0x13579bdf if m_LFSR_A == 0
-    self.m_LFSR_B = 0x2468ace0 if m_LFSR_B == 0
-    self.m_LFSR_C = 0xfdb97531 if m_LFSR_C == 0
+    @m_LFSR_A = 0x13579bdf if m_LFSR_A == 0
+    @m_LFSR_B = 0x2468ace0 if m_LFSR_B == 0
+    @m_LFSR_C = 0xfdb97531 if m_LFSR_C == 0
   end
 end
