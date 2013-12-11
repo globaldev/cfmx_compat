@@ -30,12 +30,12 @@ class Worker
 
 private
 
-  def encode(result)
-    @encoder.encode(result)
+  def encode(plaintext)
+    @encoder.encode(plaintext)
   end
 
-  def decode(encoded)
-    @encoder.decode(encoded)
+  def decode(ciphertext)
+    @encoder.decode(ciphertext)
   end
 
   def transform_string(string)
