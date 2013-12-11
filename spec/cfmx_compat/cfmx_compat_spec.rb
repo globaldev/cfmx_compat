@@ -30,15 +30,15 @@ describe CfmxCompat do
     end
 
     context "encoding" do
-      context "when not specified" do
-        it "defaults to uu" do
-          CfmxCompat.encrypt(plaintext, key).should == "*<@>J&XG+`99/40``\n"
-        end
-      end
-
       context "when uu" do
         it "encrypts correctly" do
           CfmxCompat.encrypt(plaintext, key, "uu").should == "*<@>J&XG+`99/40``\n"
+        end
+      end
+
+      context "when not specified" do
+        it "defaults to uu" do
+          CfmxCompat.encrypt(plaintext, key).should == "*<@>J&XG+`99/40``\n"
         end
       end
 
