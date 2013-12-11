@@ -1,3 +1,5 @@
+require "base64"
+
 class EncodingFactory
   def create encoding
     case encoding
