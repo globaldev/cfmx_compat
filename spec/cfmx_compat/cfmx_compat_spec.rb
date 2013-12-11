@@ -64,21 +64,9 @@ describe CfmxCompat do
         end
       end
 
-      context "when uu" do
-        it "decrypts correctly" do
-          CfmxCompat.decrypt(CfmxCompat.encrypt(plaintext, key, :uu), key, :uu).should == plaintext
-        end
-      end
-
-      context "when hex" do
-        it "decrypts correctly" do
-          CfmxCompat.decrypt(CfmxCompat.encrypt(plaintext, key, :hex), key, :hex).should == plaintext
-        end
-      end
-
-      context "when base64" do
-        it "decrypts correctly" do
-          CfmxCompat.decrypt(CfmxCompat.encrypt(plaintext, key, :base64), key, :base64) == plaintext
+      it "decrypts correctly with specified encoding" do
+        [:uu, :hex, :base64].each do |encoding_type|
+          CfmxCompat.decrypt(CfmxCompat.encrypt(plaintext, key, encoding_type), key, encoding_type).should == plaintext
         end
       end
     end
