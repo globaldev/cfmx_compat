@@ -11,19 +11,19 @@ class CfmxCompat
 end
 
 class Worker
-  M_MASK_A = 0x80000062
-  M_MASK_B = 0x40000020
-  M_MASK_C = 0x10000002
-  M_ROT0_A = 0x7fffffff
-  M_ROT0_B = 0x3fffffff
-  M_ROT0_C = 0xfffffff
-  M_ROT1_A = 0x80000000
-  M_ROT1_B = 0xc0000000
-  M_ROT1_C = 0xf0000000
+  @@M_MASK_A = 0x80000062
+  @@M_MASK_B = 0x40000020
+  @@M_MASK_C = 0x10000002
+  @@M_ROT0_A = 0x7fffffff
+  @@M_ROT0_B = 0x3fffffff
+  @@M_ROT0_C = 0xfffffff
+  @@M_ROT1_A = 0x80000000
+  @@M_ROT1_B = 0xc0000000
+  @@M_ROT1_C = 0xf0000000
 
-  UNSIGNED_CHAR = "C*"
-  UU_ENCODED_STRING = "u"
-  HEX_ENCODED_STRING = "H*"
+  @@UNSIGNED_CHAR = "C*"
+  @@UU_ENCODED_STRING = "u"
+  @@HEX_ENCODED_STRING = "H*"
 
   def encrypt(plaintext, key, encoding = "uu")
     encode(transform_string(plaintext || "", key), encoding)
@@ -38,9 +38,9 @@ private
   def encode(result, encoding)
     case encoding.downcase.to_s
     when "uu" then
-      [result].pack(UU_ENCODED_STRING)
+      [result].pack(@@UU_ENCODED_STRING)
     when "hex" then
-      result.unpack(HEX_ENCODED_STRING).first.upcase
+      result.unpack(@@HEX_ENCODED_STRING).first.upcase
     when "base64"
       Base64.strict_encode64(result) # strict = no new line to match CF.
     else
@@ -51,7 +51,7 @@ private
   def decode(encoded, encoding)
     case encoding.downcase.to_s
     when "uu" then
-      encoded.unpack(UU_ENCODED_STRING).first
+      encoded.unpack(@@UU_ENCODED_STRING).first
     when "hex" then
       encoded.scan(/../).map {|x| x.hex.chr }.join
     when "base64" then
@@ -70,7 +70,7 @@ private
     @m_LFSR_C = 0xfdb97531
     seed_from_key(key)
 
-    string.bytes.map {|byte| transform_byte(byte) }.pack(UNSIGNED_CHAR)
+    string.bytes.map {|byte| transform_byte(byte) }.pack(@@UNSIGNED_CHAR)
   end
 
   def transform_byte(target)
@@ -80,22 +80,22 @@ private
 
     8.times do
       if @m_LFSR_A & 1 != 0
-        @m_LFSR_A = @m_LFSR_A ^ M_MASK_A >> 1 | M_ROT1_A
+        @m_LFSR_A = @m_LFSR_A ^ @@M_MASK_A >> 1 | @@M_ROT1_A
 
         if @m_LFSR_B & 1 != 0
-          @m_LFSR_B = @m_LFSR_B ^ M_MASK_B >> 1 | M_ROT1_B
+          @m_LFSR_B = @m_LFSR_B ^ @@M_MASK_B >> 1 | @@M_ROT1_B
           b = 1
         else
-          @m_LFSR_B = @m_LFSR_B >> 1 & M_ROT0_B
+          @m_LFSR_B = @m_LFSR_B >> 1 & @@M_ROT0_B
           b = 0
         end
       else
-        @m_LFSR_A = @m_LFSR_A >> 1 & M_ROT0_A
+        @m_LFSR_A = @m_LFSR_A >> 1 & @@M_ROT0_A
         if @m_LFSR_C & 1 != 0
-          @m_LFSR_C = @m_LFSR_C ^ M_MASK_C >> 1 | M_ROT1_C
+          @m_LFSR_C = @m_LFSR_C ^ @@M_MASK_C >> 1 | @@M_ROT1_C
           c = 1
         else
-          @m_LFSR_C = @m_LFSR_C >> 1 & M_ROT0_C
+          @m_LFSR_C = @m_LFSR_C >> 1 & @@M_ROT0_C
           c = 0
         end
       end
