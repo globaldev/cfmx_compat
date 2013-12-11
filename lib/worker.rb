@@ -11,7 +11,7 @@ class Worker
   @@M_ROT1_B = 0xc0000000
   @@M_ROT1_C = 0xf0000000
 
-  @@UNSIGNED_CHAR = "C*"
+  @@UNSIGNED_CHAR = 'C*'
 
   def initialize encoding, key
     raise ArgumentError, "CfmxCompat a key must be specified for encryption or decryption" if key.nil? or key.empty?
@@ -21,11 +21,11 @@ class Worker
   end
 
   def encrypt(plaintext)
-    encode(transform_string(plaintext || ""))
+    encode(transform_string(plaintext || ''))
   end
 
   def decrypt(ciphertext)
-    transform_string(decode(ciphertext || ""))
+    transform_string(decode(ciphertext || ''))
   end
 
   private
