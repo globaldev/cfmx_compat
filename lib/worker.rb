@@ -28,7 +28,7 @@ class Worker
     transform_string(decode(ciphertext || ''))
   end
 
-  private
+private
 
   def encode(result)
     @encoder.encode(result)
